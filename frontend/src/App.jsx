@@ -8,24 +8,35 @@ import UserService from './components/service/UserService';
 import UpdateUser from './components/userspage/UpdateUser';
 import UserManagementPage from './components/userspage/UserManagementPage';
 import ProfilePage from './components/userspage/ProfilePage';
+import { useState, useEffect } from "react";
 
 
 
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(UserService.adminOnly());
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAdmin(UserService.adminOnly()); // Cập nhật lại trạng thái khi localStorage thay đổi
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Navbar />
+        <Navbar setIsAdmin={setIsAdmin} />
         <div className="content">
           <Routes>
-            <Route exact path="/" element={<LoginPage />} />
-            <Route exact path="/login" element={<LoginPage />} />
+            <Route exact path="/" element={<LoginPage setIsAdmin={setIsAdmin} />} />
+            <Route exact path="/login" element={<LoginPage setIsAdmin={setIsAdmin} />} />
             <Route path="/profile" element={<ProfilePage />} />
 
             {/* Check if user is authenticated and admin before rendering admin-only routes */}
-            {UserService.adminOnly() && (
+            {isAdmin && (
               <>
                 <Route path="/register" element={<RegistrationPage />} />
                 <Route path="/admin/user-management" element={<UserManagementPage />} />

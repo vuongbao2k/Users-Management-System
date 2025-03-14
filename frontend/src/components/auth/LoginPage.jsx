@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UserService from '../service/UserService';
 
-function LoginPage() {
+function LoginPage({ setIsAdmin }) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +17,10 @@ function LoginPage() {
       if (userData.token) {
         localStorage.setItem('token', userData.token);
         localStorage.setItem('role', userData.role);
+        
+        setIsAdmin(UserService.adminOnly());
+        window.dispatchEvent(new Event("storage"));  // 🔥 Đảm bảo UI thay đổi
+
         navigate('/profile'); 
       } else {
         setError(userData.error)

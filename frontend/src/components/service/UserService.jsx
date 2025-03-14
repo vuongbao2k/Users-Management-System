@@ -61,6 +61,7 @@ class UserService {
   static logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('role')
+    window.dispatchEvent(new Event("storage")); // 🔥 Thông báo cập nhật UI
   }
 
   static isAuthenticated() {
