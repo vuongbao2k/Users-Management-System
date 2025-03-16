@@ -4,6 +4,7 @@ import com.jabao.usersmanagementsystem.dto.ReqRes;
 import com.jabao.usersmanagementsystem.entity.OurUsers;
 import com.jabao.usersmanagementsystem.service.UsersManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,8 +27,18 @@ public class UserManagementController {
 
     @PostMapping("/auth/refresh")
     public ResponseEntity<ReqRes> refreshToken(@RequestBody ReqRes req) {
-        return ResponseEntity.ok(usersManagementService.refreshToken(req));
+        System.out.println("Received refresh request with token: " + req.getToken());
+
+        ReqRes response = usersManagementService.refreshToken(req);
+        if (response.getStatusCode() == 500) {
+            System.out.println("Refresh token is invalid or expired.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        }
+
+        System.out.println("New accessToken: " + response.getToken());
+        return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/admin/get-all-users")
     public ResponseEntity<ReqRes> getAllUsers() {

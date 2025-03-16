@@ -16,6 +16,7 @@ function LoginPage({ setIsAdmin }) {
       const userData = await UserService.login(email, password);
       if (userData.token) {
         localStorage.setItem('token', userData.token);
+        localStorage.setItem('refreshToken', userData.refreshToken);
         localStorage.setItem('role', userData.role);
         
         setIsAdmin(UserService.adminOnly());
