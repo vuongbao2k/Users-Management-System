@@ -1,15 +1,14 @@
 import axiosInstance from "./axiosInstance";
 
 class UserService {
-  static BASE_URL = "http://localhost:1010"
 
   static async login(email, password) {
-    const response = await axiosInstance.post(`${UserService.BASE_URL}/auth/login`, { email, password })
+    const response = await axiosInstance.post(`/auth/login`, { email, password })
     return response.data;
   }
 
   static async register(userData, token) {
-    const response = await axiosInstance.post(`${UserService.BASE_URL}/auth/register`, userData, 
+    const response = await axiosInstance.post(`/auth/register`, userData, 
       {
         headers: {Authorization: `Bearer ${token}`}
       })
@@ -17,7 +16,7 @@ class UserService {
   }
 
   static async getAllUsers(token) {
-    const response = await axiosInstance.get(`${UserService.BASE_URL}/admin/get-all-users`,
+    const response = await axiosInstance.get(`/admin/get-all-users`,
       {
         headers: {Authorization: `Bearer ${token}`}
       })
@@ -25,7 +24,7 @@ class UserService {
   }
 
   static async getYourProfile(token) {
-    const response = await axiosInstance.get(`${UserService.BASE_URL}/adminuser/get-profile`,
+    const response = await axiosInstance.get(`/adminuser/get-profile`,
       {
         headers: {Authorization: `Bearer ${token}`}
       })
@@ -33,7 +32,7 @@ class UserService {
   }
 
   static async getUserById(userId, token) {
-    const response = await axiosInstance.get(`${UserService.BASE_URL}/admin/get-users/${userId}`,
+    const response = await axiosInstance.get(`/admin/get-users/${userId}`,
       {
         headers: {Authorization: `Bearer ${token}`}
       })
@@ -41,7 +40,7 @@ class UserService {
   }
 
   static async deleteUser(userId, token) {
-    const response = await axiosInstance.delete(`${UserService.BASE_URL}/admin/delete/${userId}`,
+    const response = await axiosInstance.delete(`/admin/delete/${userId}`,
       {
         headers: {Authorization: `Bearer ${token}`}
       })
@@ -49,7 +48,7 @@ class UserService {
   }
 
   static async updateUser(userId, userData, token) {
-    const response = await axiosInstance.put(`${UserService.BASE_URL}/admin/update/${userId}`, userData,
+    const response = await axiosInstance.put(`/admin/update/${userId}`, userData,
       {
         headers: {Authorization: `Bearer ${token}`}
       })
