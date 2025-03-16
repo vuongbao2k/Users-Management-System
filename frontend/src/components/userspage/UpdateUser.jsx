@@ -21,8 +21,7 @@ function UpdateUser() {
 
   const fetchUserDataById = async (userId) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await UserService.getUserById(userId, token); // Pass userId to getUserById
+      const response = await UserService.getUserById(userId); // Pass userId to getUserById
       const { name, email, role, city } = response.ourUsers;
       setUserData({ name, email, role, city });
     } catch (error) {
@@ -44,8 +43,7 @@ function UpdateUser() {
     try {
       const confirmUpdate = window.confirm('Are you sure you want to update this user?');
       if (confirmUpdate) {
-        const token = localStorage.getItem('token');
-        const res = await UserService.updateUser(userId, userData, token);
+        const res = await UserService.updateUser(userId, userData);
         console.log(res)
         // Redirect to profile page or display a success message
         navigate("/admin/user-management")

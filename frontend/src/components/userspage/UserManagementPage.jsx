@@ -13,9 +13,7 @@ function UserManagementPage() {
 
   const fetchUsers = async () => {
     try {
-
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage
-      const response = await UserService.getAllUsers(token);
+      const response = await UserService.getAllUsers();
       //   console.log(response);
       setUsers(response.ourUsersList); // Assuming the list of users is under the key 'ourUsersList'
     } catch (error) {
@@ -29,9 +27,8 @@ function UserManagementPage() {
       // Prompt for confirmation before deleting the user
       const confirmDelete = window.confirm('Are you sure you want to delete this user?');
 
-      const token = localStorage.getItem('token'); // Retrieve the token from localStorage
       if (confirmDelete) {
-        await UserService.deleteUser(userId, token);
+        await UserService.deleteUser(userId);
         // After deleting the user, fetch the updated list of users
         fetchUsers();
       }

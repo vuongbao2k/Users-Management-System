@@ -22,9 +22,7 @@ function RegistrationPage() {
         e.preventDefault();
         try {
             // Call the register method from UserService
-
-            const token = localStorage.getItem('token');
-            await UserService.register(formData, token);
+            await UserService.register(formData);
 
             // Clear the form fields after successful registration
             setFormData({
